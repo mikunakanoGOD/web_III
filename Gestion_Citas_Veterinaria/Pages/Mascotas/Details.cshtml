@@ -1,0 +1,32 @@
+@page "{id:int}"
+@model Gestion_Citas_Veterinaria.Pages.Mascotas.DetailsModel
+
+@{
+    ViewData["Title"] = "Detalles de la Mascota";
+}
+
+<h2>Detalles de la Mascota</h2>
+<hr />
+
+<dl class="row">
+    <dt class="col-sm-3">Nombre</dt>
+    <dd class="col-sm-9">@Model.Mascota.Nombre</dd>
+
+    <dt class="col-sm-3">Especie</dt>
+    <dd class="col-sm-9">@Model.Mascota.Especie</dd>
+
+    <dt class="col-sm-3">Raza</dt>
+    <dd class="col-sm-9">@(Model.Mascota.Raza ?? "-")</dd>
+
+    <dt class="col-sm-3">Fecha de Nacimiento</dt>
+    <dd class="col-sm-9">@(Model.Mascota.FechaNacimiento?.ToString("dd/MM/yyyy") ?? "-")</dd>
+
+    <dt class="col-sm-3">Propietario</dt>
+    <dd class="col-sm-9">@Model.Mascota.Propietario?.Nombre @Model.Mascota.Propietario?.Apellidos</dd>
+
+    <dt class="col-sm-3">Estado</dt>
+    <dd class="col-sm-9">@(Model.Mascota.Activo ? "Activa" : "Inactiva")</dd>
+</dl>
+
+<a asp-page="Edit" asp-route-id="@Model.Mascota.Id" class="btn btn-warning">Editar</a>
+<a asp-page="Index" class="btn btn-secondary">Volver</a>

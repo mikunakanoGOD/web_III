@@ -1,9 +1,11 @@
 using Gestion_Citas_Veterinaria.Models;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 
 namespace Gestion_Citas_Veterinaria.Data
 {
-    public class ApplicationDbContext : DbContext
+    // Hereda de IdentityDbContext para incluir las tablas de usuarios y roles
+    public class ApplicationDbContext : IdentityDbContext
     {
         public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options)
             : base(options)
@@ -19,14 +21,14 @@ namespace Gestion_Citas_Veterinaria.Data
         {
             base.OnModelCreating(modelBuilder);
 
-            // Cita -> Mascota (no cascada para evitar ciclos)
+            // Cita -> Mascota (sin cascada para evitar ciclos)
             modelBuilder.Entity<Cita>()
                 .HasOne(c => c.Mascota)
                 .WithMany(m => m.Citas)
                 .HasForeignKey(c => c.MascotaId)
                 .OnDelete(DeleteBehavior.Restrict);
 
-            // Cita -> Veterinario (no cascada para evitar ciclos)
+            // Cita -> Veterinario (sin cascada para evitar ciclos)
             modelBuilder.Entity<Cita>()
                 .HasOne(c => c.Veterinario)
                 .WithMany(v => v.Citas)

@@ -141,7 +141,6 @@ C:\Edwin\univalle\cuarto_semestre\web_III\Gestion_Citas_Veterinaria\Gestion_Cita
 C:\Edwin\univalle\cuarto_semestre\web_III\Gestion_Citas_Veterinaria\Gestion_Citas_Veterinaria\bin\Debug\net8.0\Microsoft.Extensions.Options.dll
 C:\Edwin\univalle\cuarto_semestre\web_III\Gestion_Citas_Veterinaria\Gestion_Citas_Veterinaria\obj\Debug\net8.0\Gestion_Citas_Veterinaria.MvcApplicationPartsAssemblyInfo.cs
 C:\Edwin\univalle\cuarto_semestre\web_III\Gestion_Citas_Veterinaria\Gestion_Citas_Veterinaria\obj\Debug\net8.0\Gestion_Citas_Veterinaria.sourcelink.json
-C:\Edwin\univalle\cuarto_semestre\web_III\Gestion_Citas_Veterinaria\Gestion_Citas_Veterinaria\obj\Debug\net8.0\swae.build.ex.cache
 C:\Edwin\univalle\cuarto_semestre\web_III\Gestion_Citas_Veterinaria\Gestion_Citas_Veterinaria\bin\Debug\net8.0\Microsoft.AspNetCore.Razor.Language.dll
 C:\Edwin\univalle\cuarto_semestre\web_III\Gestion_Citas_Veterinaria\Gestion_Citas_Veterinaria\bin\Debug\net8.0\Microsoft.Build.dll
 C:\Edwin\univalle\cuarto_semestre\web_III\Gestion_Citas_Veterinaria\Gestion_Citas_Veterinaria\bin\Debug\net8.0\Microsoft.Build.Framework.dll
@@ -265,3 +264,4 @@ C:\Edwin\univalle\cuarto_semestre\web_III\Gestion_Citas_Veterinaria\Gestion_Cita
 C:\Edwin\univalle\cuarto_semestre\web_III\Gestion_Citas_Veterinaria\Gestion_Citas_Veterinaria\bin\Debug\net8.0\runtimes\win\lib\net7.0\System.Drawing.Common.dll
 C:\Edwin\univalle\cuarto_semestre\web_III\Gestion_Citas_Veterinaria\Gestion_Citas_Veterinaria\bin\Debug\net8.0\runtimes\win\lib\net7.0\System.Security.Cryptography.ProtectedData.dll
 C:\Edwin\univalle\cuarto_semestre\web_III\Gestion_Citas_Veterinaria\Gestion_Citas_Veterinaria\bin\Debug\net8.0\runtimes\win\lib\net7.0\System.Windows.Extensions.dll
+C:\Edwin\univalle\cuarto_semestre\web_III\Gestion_Citas_Veterinaria\Gestion_Citas_Veterinaria\obj\Debug\net8.0\staticwebassets.upToDateCheck.txt

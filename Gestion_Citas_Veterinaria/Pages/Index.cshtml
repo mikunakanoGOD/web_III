@@ -1,10 +1,62 @@
 ﻿@page
-@model IndexModel
+@model Gestion_Citas_Veterinaria.Pages.IndexModel
 @{
-    ViewData["Title"] = "Home page";
+    ViewData["Title"] = "Inicio";
 }
 
-<div class="text-center">
-    <h1 class="display-4">Welcome</h1>
-    <p>Learn about <a href="https://learn.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
+<div class="text-center mb-4">
+    <h1 class="display-5">Veterinaria El Arca de Moe</h1>
+    <p class="lead text-muted">Sistema de gestión de citas</p>
 </div>
+
+@if (User.Identity != null && User.Identity.IsAuthenticated)
+{
+    <div class="row text-center mt-4">
+        <div class="col-md-3 mb-3">
+            <div class="card h-100 shadow-sm">
+                <div class="card-body">
+                    <h5 class="card-title">Propietarios</h5>
+                    <p class="card-text text-muted">Registra y gestiona los propietarios de las mascotas.</p>
+                    <a asp-page="/Propietarios/Index" class="btn btn-outline-dark">Ver propietarios</a>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-3 mb-3">
+            <div class="card h-100 shadow-sm">
+                <div class="card-body">
+                    <h5 class="card-title">Mascotas</h5>
+                    <p class="card-text text-muted">Administra las mascotas y sus datos.</p>
+                    <a asp-page="/Mascotas/Index" class="btn btn-outline-dark">Ver mascotas</a>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-3 mb-3">
+            <div class="card h-100 shadow-sm">
+                <div class="card-body">
+                    <h5 class="card-title">Veterinarios</h5>
+                    <p class="card-text text-muted">Gestiona el personal veterinario disponible.</p>
+                    <a asp-page="/Veterinarios/Index" class="btn btn-outline-dark">Ver veterinarios</a>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-3 mb-3">
+            <div class="card h-100 shadow-sm">
+                <div class="card-body">
+                    <h5 class="card-title">Citas</h5>
+                    <p class="card-text text-muted">Agenda y consulta las citas médicas.</p>
+                    <a asp-page="/Citas/Index" class="btn btn-outline-dark">Ver citas</a>
+                </div>
+            </div>
+        </div>
+    </div>
+}
+else
+{
+    <div class="row justify-content-center mt-4">
+        <div class="col-md-6 text-center">
+            <p class="text-muted mb-4">Inicia sesión para acceder al sistema.</p>
+            <a asp-area="Identity" asp-page="/Account/Login" class="btn btn-dark me-2">Iniciar sesión</a>
+            <a asp-area="Identity" asp-page="/Account/Register" class="btn btn-outline-dark">Registrarse</a>
+        </div>
+    </div>
+}

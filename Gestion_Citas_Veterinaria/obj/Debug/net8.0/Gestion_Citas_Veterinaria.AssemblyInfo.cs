@@ -14,7 +14,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("Gestion_Citas_Veterinaria")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+78a80b422463184ebcf861f7f2b7b0aa018131c8")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+0b7f8d441ae3171f96205a2dc7371c413efc8c26")]
 [assembly: System.Reflection.AssemblyProductAttribute("Gestion_Citas_Veterinaria")]
 [assembly: System.Reflection.AssemblyTitleAttribute("Gestion_Citas_Veterinaria")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]

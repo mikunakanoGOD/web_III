@@ -1,0 +1,29 @@
+@page "{id:int}"
+@model Gestion_Citas_Veterinaria.Pages.Veterinarios.DetailsModel
+
+@{
+    ViewData["Title"] = "Detalles del Veterinario";
+}
+
+<h2>Detalles del Veterinario</h2>
+<hr />
+
+<dl class="row">
+    <dt class="col-sm-3">Nombre</dt>
+    <dd class="col-sm-9">@Model.Veterinario.Nombre</dd>
+
+    <dt class="col-sm-3">Apellidos</dt>
+    <dd class="col-sm-9">@Model.Veterinario.Apellidos</dd>
+
+    <dt class="col-sm-3">Especialidad</dt>
+    <dd class="col-sm-9">@(Model.Veterinario.Especialidad ?? "-")</dd>
+
+    <dt class="col-sm-3">Teléfono</dt>
+    <dd class="col-sm-9">@Model.Veterinario.Telefono</dd>
+
+    <dt class="col-sm-3">Estado</dt>
+    <dd class="col-sm-9">@(Model.Veterinario.Activo ? "Activo" : "Inactivo")</dd>
+</dl>
+
+<a asp-page="Edit" asp-route-id="@Model.Veterinario.Id" class="btn btn-warning">Editar</a>
+<a asp-page="Index" class="btn btn-secondary">Volver</a>

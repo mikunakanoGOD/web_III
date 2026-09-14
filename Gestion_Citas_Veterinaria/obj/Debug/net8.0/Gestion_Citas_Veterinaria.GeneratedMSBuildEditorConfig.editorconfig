@@ -59,6 +59,26 @@ build_metadata.AdditionalFiles.CssScope =
 build_metadata.AdditionalFiles.TargetPath = QXJlYXNcSWRlbnRpdHlcUGFnZXNcX1ZpZXdTdGFydC5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
 
+[C:/Edwin/univalle/cuarto_semestre/web_III/Gestion_Citas_Veterinaria/Gestion_Citas_Veterinaria/Pages/Citas/Create.cshtml]
+build_metadata.AdditionalFiles.TargetPath = UGFnZXNcQ2l0YXNcQ3JlYXRlLmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Edwin/univalle/cuarto_semestre/web_III/Gestion_Citas_Veterinaria/Gestion_Citas_Veterinaria/Pages/Citas/Delete.cshtml]
+build_metadata.AdditionalFiles.TargetPath = UGFnZXNcQ2l0YXNcRGVsZXRlLmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Edwin/univalle/cuarto_semestre/web_III/Gestion_Citas_Veterinaria/Gestion_Citas_Veterinaria/Pages/Citas/Details.cshtml]
+build_metadata.AdditionalFiles.TargetPath = UGFnZXNcQ2l0YXNcRGV0YWlscy5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Edwin/univalle/cuarto_semestre/web_III/Gestion_Citas_Veterinaria/Gestion_Citas_Veterinaria/Pages/Citas/Edit.cshtml]
+build_metadata.AdditionalFiles.TargetPath = UGFnZXNcQ2l0YXNcRWRpdC5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Edwin/univalle/cuarto_semestre/web_III/Gestion_Citas_Veterinaria/Gestion_Citas_Veterinaria/Pages/Citas/Index.cshtml]
+build_metadata.AdditionalFiles.TargetPath = UGFnZXNcQ2l0YXNcSW5kZXguY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
 [C:/Edwin/univalle/cuarto_semestre/web_III/Gestion_Citas_Veterinaria/Gestion_Citas_Veterinaria/Pages/Error.cshtml]
 build_metadata.AdditionalFiles.TargetPath = UGFnZXNcRXJyb3IuY3NodG1s
 build_metadata.AdditionalFiles.CssScope = 
@@ -117,6 +137,26 @@ build_metadata.AdditionalFiles.CssScope =
 
 [C:/Edwin/univalle/cuarto_semestre/web_III/Gestion_Citas_Veterinaria/Gestion_Citas_Veterinaria/Pages/Shared/_ValidationScriptsPartial.cshtml]
 build_metadata.AdditionalFiles.TargetPath = UGFnZXNcU2hhcmVkXF9WYWxpZGF0aW9uU2NyaXB0c1BhcnRpYWwuY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Edwin/univalle/cuarto_semestre/web_III/Gestion_Citas_Veterinaria/Gestion_Citas_Veterinaria/Pages/Veterinarios/Create.cshtml]
+build_metadata.AdditionalFiles.TargetPath = UGFnZXNcVmV0ZXJpbmFyaW9zXENyZWF0ZS5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Edwin/univalle/cuarto_semestre/web_III/Gestion_Citas_Veterinaria/Gestion_Citas_Veterinaria/Pages/Veterinarios/Delete.cshtml]
+build_metadata.AdditionalFiles.TargetPath = UGFnZXNcVmV0ZXJpbmFyaW9zXERlbGV0ZS5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Edwin/univalle/cuarto_semestre/web_III/Gestion_Citas_Veterinaria/Gestion_Citas_Veterinaria/Pages/Veterinarios/Details.cshtml]
+build_metadata.AdditionalFiles.TargetPath = UGFnZXNcVmV0ZXJpbmFyaW9zXERldGFpbHMuY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Edwin/univalle/cuarto_semestre/web_III/Gestion_Citas_Veterinaria/Gestion_Citas_Veterinaria/Pages/Veterinarios/Edit.cshtml]
+build_metadata.AdditionalFiles.TargetPath = UGFnZXNcVmV0ZXJpbmFyaW9zXEVkaXQuY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Edwin/univalle/cuarto_semestre/web_III/Gestion_Citas_Veterinaria/Gestion_Citas_Veterinaria/Pages/Veterinarios/Index.cshtml]
+build_metadata.AdditionalFiles.TargetPath = UGFnZXNcVmV0ZXJpbmFyaW9zXEluZGV4LmNzaHRtbA==
 build_metadata.AdditionalFiles.CssScope = 
 
 [C:/Edwin/univalle/cuarto_semestre/web_III/Gestion_Citas_Veterinaria/Gestion_Citas_Veterinaria/Pages/_ViewImports.cshtml]

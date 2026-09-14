@@ -1,0 +1,29 @@
+@page "{id:int}"
+@model Gestion_Citas_Veterinaria.Pages.Citas.DeleteModel
+
+@{
+    ViewData["Title"] = "Eliminar Cita";
+}
+
+<h2>¿Eliminar esta cita?</h2>
+<hr />
+
+<dl class="row">
+    <dt class="col-sm-3">Mascota</dt>
+    <dd class="col-sm-9">@Model.Cita.Mascota?.Nombre</dd>
+
+    <dt class="col-sm-3">Veterinario</dt>
+    <dd class="col-sm-9">@Model.Cita.Veterinario?.Nombre @Model.Cita.Veterinario?.Apellidos</dd>
+
+    <dt class="col-sm-3">Fecha y Hora</dt>
+    <dd class="col-sm-9">@Model.Cita.FechaHora.ToString("dd/MM/yyyy HH:mm")</dd>
+
+    <dt class="col-sm-3">Estado</dt>
+    <dd class="col-sm-9">@Model.Cita.Estado</dd>
+</dl>
+
+<form method="post">
+    <input type="hidden" asp-for="Cita.Id" />
+    <button type="submit" class="btn btn-danger">Sí, eliminar</button>
+    <a asp-page="Index" class="btn btn-secondary">Cancelar</a>
+</form>

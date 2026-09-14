@@ -1,0 +1,43 @@
+@page "{id:int}"
+@model Gestion_Citas_Veterinaria.Pages.Citas.DetailsModel
+
+@{
+    ViewData["Title"] = "Detalles de la Cita";
+}
+
+<h2>Detalles de la Cita</h2>
+<hr />
+
+<dl class="row">
+    <dt class="col-sm-3">Mascota</dt>
+    <dd class="col-sm-9">@Model.Cita.Mascota?.Nombre</dd>
+
+    <dt class="col-sm-3">Veterinario</dt>
+    <dd class="col-sm-9">@Model.Cita.Veterinario?.Nombre @Model.Cita.Veterinario?.Apellidos</dd>
+
+    <dt class="col-sm-3">Fecha y Hora</dt>
+    <dd class="col-sm-9">@Model.Cita.FechaHora.ToString("dd/MM/yyyy HH:mm")</dd>
+
+    <dt class="col-sm-3">Motivo</dt>
+    <dd class="col-sm-9">@Model.Cita.Motivo</dd>
+
+    <dt class="col-sm-3">Estado</dt>
+    <dd class="col-sm-9">
+        @{
+            var badgeClass = Model.Cita.Estado switch
+            {
+                Gestion_Citas_Veterinaria.Models.EstadoCita.Pendiente  => "badge bg-warning text-dark",
+                Gestion_Citas_Veterinaria.Models.EstadoCita.Completada => "badge bg-success",
+                Gestion_Citas_Veterinaria.Models.EstadoCita.Cancelada  => "badge bg-danger",
+                _ => "badge bg-secondary"
+            };
+        }
+        <span class="@badgeClass">@Model.Cita.Estado</span>
+    </dd>
+
+    <dt class="col-sm-3">Diagnóstico</dt>
+    <dd class="col-sm-9">@(Model.Cita.Diagnostico ?? "-")</dd>
+</dl>
+
+<a asp-page="Edit" asp-route-id="@Model.Cita.Id" class="btn btn-warning">Editar</a>
+<a asp-page="Index" class="btn btn-secondary">Volver</a>

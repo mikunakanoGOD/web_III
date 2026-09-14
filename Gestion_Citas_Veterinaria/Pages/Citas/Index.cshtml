@@ -1,0 +1,53 @@
+@page
+@model Gestion_Citas_Veterinaria.Pages.Citas.IndexModel
+
+@{
+    ViewData["Title"] = "Citas";
+}
+
+<h2>Citas</h2>
+
+<p>
+    <a asp-page="Create" class="btn btn-primary">+ Nueva cita</a>
+</p>
+
+<table class="table table-striped">
+    <thead>
+        <tr>
+            <th>Fecha y Hora</th>
+            <th>Mascota</th>
+            <th>Veterinario</th>
+            <th>Motivo</th>
+            <th>Estado</th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model.Citas)
+        {
+            <tr>
+                <td>@item.FechaHora.ToString("dd/MM/yyyy HH:mm")</td>
+                <td>@item.Mascota?.Nombre</td>
+                <td>@item.Veterinario?.Nombre @item.Veterinario?.Apellidos</td>
+                <td>@item.Motivo</td>
+                <td>
+                    @{
+                        var badgeClass = item.Estado switch
+                        {
+                            Gestion_Citas_Veterinaria.Models.EstadoCita.Pendiente   => "badge bg-warning text-dark",
+                            Gestion_Citas_Veterinaria.Models.EstadoCita.Completada  => "badge bg-success",
+                            Gestion_Citas_Veterinaria.Models.EstadoCita.Cancelada   => "badge bg-danger",
+                            _ => "badge bg-secondary"
+                        };
+                    }
+                    <span class="@badgeClass">@item.Estado</span>
+                </td>
+                <td>
+                    <a asp-page="Edit" asp-route-id="@item.Id" class="btn btn-sm btn-warning">Editar</a>
+                    <a asp-page="Details" asp-route-id="@item.Id" class="btn btn-sm btn-info">Ver</a>
+                    <a asp-page="Delete" asp-route-id="@item.Id" class="btn btn-sm btn-danger">Eliminar</a>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>

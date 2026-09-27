@@ -1,0 +1,109 @@
+@model IEnumerable<gestion_biblioteca.Models.Libro>
+@using gestion_biblioteca.Models
+@{
+    ViewData["Title"] = "Catálogo de Libros";
+    var sesion = ViewBag.UsuarioSesion as gestion_biblioteca.ViewModels.UsuarioSesionViewModel;
+    var categorias = ViewBag.Categorias as List<string> ?? new List<string>();
+}
+
+<div class="container-fluid py-3">
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <h2 class="fw-bold mb-0">📚 Catálogo de Libros</h2>
+        @if (sesion?.Rol == Rol.Administrador || sesion?.Rol == Rol.Bibliotecario)
+        {
+            <a asp-action="Create" class="btn btn-primary">+ Agregar Libro</a>
+        }
+    </div>
+
+    @if (TempData["Exito"] != null)
+    {
+        <div class="alert alert-success alert-dismissible fade show">@TempData["Exito"]<button type="button" class="btn-close" data-bs-dismiss="alert"></button></div>
+    }
+    @if (TempData["Error"] != null)
+    {
+        <div class="alert alert-danger alert-dismissible fade show">@TempData["Error"]<button type="button" class="btn-close" data-bs-dismiss="alert"></button></div>
+    }
+
+    <!-- Búsqueda y filtro -->
+    <form method="get" asp-action="Catalogo" class="row g-2 mb-4">
+        <div class="col-md-6">
+            <input type="text" name="buscar" value="@ViewBag.Buscar" class="form-control"
+                   placeholder="Buscar por título o autor..." />
+        </div>
+        <div class="col-md-4">
+            <select name="categoria" class="form-select">
+                <option value="">-- Todas las categorías --</option>
+                @foreach (var cat in categorias)
+                {
+                    <option value="@cat" selected="@(ViewBag.Categoria == cat)">@cat</option>
+                }
+            </select>
+        </div>
+        <div class="col-md-2 d-flex gap-2">
+            <button type="submit" class="btn btn-outline-primary w-100">Buscar</button>
+            <a asp-action="Catalogo" class="btn btn-outline-secondary">✕</a>
+        </div>
+    </form>
+
+    <!-- Tarjetas de libros -->
+    @if (!Model.Any())
+    {
+        <div class="text-center py-5 text-muted">
+            <div class="fs-1">🔍</div>
+            <p>No se encontraron libros con esos criterios.</p>
+        </div>
+    }
+    else
+    {
+        <div class="row row-cols-1 row-cols-md-2 row-cols-xl-3 g-4">
+            @foreach (var libro in Model)
+            {
+                <div class="col">
+                    <div class="card h-100 border-0 shadow-sm">
+                        <div class="card-body">
+                            <div class="d-flex justify-content-between align-items-start mb-2">
+                                <span class="badge bg-secondary">@libro.Categoria</span>
+                                @if (libro.Estado == EstadoLibro.Disponible)
+                                {
+                                    <span class="badge bg-success">Disponible (@libro.CantidadDisponible)</span>
+                                }
+                                else
+                                {
+                                    <span class="badge bg-warning text-dark">No disponible</span>
+                                }
+                            </div>
+                            <h5 class="card-title fw-bold">@libro.Titulo</h5>
+                            <p class="text-muted small mb-1">✍️ @libro.Autor</p>
+                            <p class="text-muted small mb-1">🏢 @libro.Editorial (@libro.AñoPublicacion)</p>
+                            <p class="text-muted small mb-3">📖 ISBN: @libro.ISBN</p>
+                            @if (!string.IsNullOrEmpty(libro.Descripcion))
+                            {
+                                <p class="card-text small text-muted">@libro.Descripcion</p>
+                            }
+                        </div>
+                        <div class="card-footer bg-white border-0 pb-3">
+                            @if (sesion?.Rol == Rol.Usuario && libro.Estado == EstadoLibro.Disponible)
+                            {
+                                <form asp-action="SolicitarPrestamo" method="post">
+                                    @Html.AntiForgeryToken()
+                                    <input type="hidden" name="libroId" value="@libro.Id" />
+                                    <button type="submit" class="btn btn-primary w-100">
+                                        📋 Solicitar Préstamo
+                                    </button>
+                                </form>
+                            }
+                            else if (sesion?.Rol == Rol.Administrador || sesion?.Rol == Rol.Bibliotecario)
+                            {
+                                <div class="d-flex gap-2">
+                                    <a asp-action="Edit" asp-route-id="@libro.Id" class="btn btn-sm btn-outline-primary flex-fill">Editar</a>
+                                    <a asp-action="Details" asp-route-id="@libro.Id" class="btn btn-sm btn-outline-secondary flex-fill">Ver</a>
+                                    <a asp-action="Delete" asp-route-id="@libro.Id" class="btn btn-sm btn-outline-danger flex-fill">Eliminar</a>
+                                </div>
+                            }
+                        </div>
+                    </div>
+                </div>
+            }
+        </div>
+    }
+</div>

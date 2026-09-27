@@ -1,83 +1,103 @@
 @model IEnumerable<gestion_biblioteca.Models.Prestamo>
-
+@using gestion_biblioteca.Models
 @{
-    ViewData["Title"] = "Index";
+    ViewData["Title"] = "Préstamos";
+    var sesion = ViewBag.UsuarioSesion as gestion_biblioteca.ViewModels.UsuarioSesionViewModel;
 }
 
-<h1>Index</h1>
+<div class="container-fluid py-3">
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <h2 class="fw-bold mb-0">📋 @(sesion?.Rol == Rol.Usuario ? "Mis Préstamos" : "Gestión de Préstamos")</h2>
+        @if (sesion?.Rol == Rol.Usuario)
+        {
+            <a asp-controller="Libros" asp-action="Catalogo" class="btn btn-primary">Ver Catálogo</a>
+        }
+    </div>
 
-<p>
-    <a asp-action="Create">Create New</a>
-</p>
-<table class="table">
-    <thead>
-        <tr>
-            <th>
-                @Html.DisplayNameFor(model => model.Usuario)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Libro)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.FechaSolicitud)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.FechaAprobacion)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.FechaDevolucionEsperada)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.FechaDevolucionReal)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Estado)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Observaciones)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Bibliotecario)
-            </th>
-            <th></th>
-        </tr>
-    </thead>
-    <tbody>
-@foreach (var item in Model) {
-        <tr>
-            <td>
-                @item.Usuario?.NombreCompleto
-            </td>
-            <td>
-                @item.Libro?.Titulo
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.FechaSolicitud)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.FechaAprobacion)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.FechaDevolucionEsperada)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.FechaDevolucionReal)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Estado)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Observaciones)
-            </td>
-            <td>
-                @item.Bibliotecario?.NombreCompleto
-            </td>
-            <td>
-                <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
-                <a asp-action="Details" asp-route-id="@item.Id">Details</a> |
-                <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
-            </td>
-        </tr>
-}
-    </tbody>
-</table>
+    @if (TempData["Exito"] != null)
+    {
+        <div class="alert alert-success alert-dismissible fade show">@TempData["Exito"]<button type="button" class="btn-close" data-bs-dismiss="alert"></button></div>
+    }
+    @if (TempData["Error"] != null)
+    {
+        <div class="alert alert-danger alert-dismissible fade show">@TempData["Error"]<button type="button" class="btn-close" data-bs-dismiss="alert"></button></div>
+    }
+
+    <div class="card border-0 shadow-sm">
+        <div class="card-body p-0">
+            <div class="table-responsive">
+                <table class="table table-hover mb-0">
+                    <thead class="table-light">
+                        <tr>
+                            @if (sesion?.Rol != Rol.Usuario)
+                            {
+                                <th>Usuario</th>
+                            }
+                            <th>Libro</th>
+                            <th>Fecha Solicitud</th>
+                            <th>Devolución Esperada</th>
+                            <th>Estado</th>
+                            @if (sesion?.Rol != Rol.Usuario)
+                            {
+                                <th>Bibliotecario</th>
+                                <th>Acciones</th>
+                            }
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var item in Model)
+                        {
+                            <tr>
+                                @if (sesion?.Rol != Rol.Usuario)
+                                {
+                                    <td>@item.Usuario?.NombreCompleto</td>
+                                }
+                                <td>
+                                    <strong>@item.Libro?.Titulo</strong><br />
+                                    <small class="text-muted">@item.Libro?.Autor</small>
+                                </td>
+                                <td>@item.FechaSolicitud.ToString("dd/MM/yyyy")</td>
+                                <td>@(item.FechaDevolucionEsperada?.ToString("dd/MM/yyyy") ?? "—")</td>
+                                <td>
+                                    @switch (item.Estado)
+                                    {
+                                        case EstadoPrestamo.Pendiente:
+                                            <span class="badge bg-warning text-dark">Pendiente</span>
+                                            break;
+                                        case EstadoPrestamo.Aprobado:
+                                            <span class="badge bg-success">Aprobado</span>
+                                            break;
+                                        case EstadoPrestamo.Rechazado:
+                                            <span class="badge bg-danger">Rechazado</span>
+                                            break;
+                                        case EstadoPrestamo.Devuelto:
+                                            <span class="badge bg-secondary">Devuelto</span>
+                                            break;
+                                    }
+                                </td>
+                                @if (sesion?.Rol != Rol.Usuario)
+                                {
+                                    <td>@(item.Bibliotecario?.NombreCompleto ?? "—")</td>
+                                    <td>
+                                        <a asp-action="Gestionar" asp-route-id="@item.Id" class="btn btn-sm btn-outline-primary">Gestionar</a>
+                                        @if (sesion?.Rol == Rol.Administrador)
+                                        {
+                                            <a asp-action="Delete" asp-route-id="@item.Id" class="btn btn-sm btn-outline-danger">Eliminar</a>
+                                        }
+                                    </td>
+                                }
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+            @if (!Model.Any())
+            {
+                <div class="text-center py-5 text-muted">
+                    <div class="fs-1">📭</div>
+                    <p>No hay préstamos registrados.</p>
+                </div>
+            }
+        </div>
+    </div>
+</div>

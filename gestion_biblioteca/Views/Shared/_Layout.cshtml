@@ -1,46 +1,161 @@
-﻿<!DOCTYPE html>
-<html lang="en">
+﻿@using gestion_biblioteca.Services
+@using gestion_biblioteca.Models
+
+@{
+    var usuarioSesion = SesionService.ObtenerUsuario(Context.Session);
+}
+
+<!DOCTYPE html>
+<html lang="es">
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>@ViewData["Title"] - gestion_biblioteca</title>
+    <title>@ViewData["Title"] - Biblioteca UPV</title>
     <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
     <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
     <link rel="stylesheet" href="~/gestion_biblioteca.styles.css" asp-append-version="true" />
+    <style>
+        .navbar-biblioteca {
+            background: linear-gradient(135deg, #1a237e, #1565c0);
+        }
+        .navbar-biblioteca .navbar-brand,
+        .navbar-biblioteca .nav-link,
+        .navbar-biblioteca .navbar-text {
+            color: rgba(255,255,255,0.92) !important;
+        }
+        .navbar-biblioteca .nav-link:hover {
+            color: #fff !important;
+            background: rgba(255,255,255,0.1);
+            border-radius: 6px;
+        }
+        .navbar-biblioteca .nav-link.active {
+            color: #fff !important;
+            font-weight: 600;
+        }
+        .navbar-biblioteca .navbar-toggler {
+            border-color: rgba(255,255,255,0.4);
+        }
+        .badge-rol {
+            font-size: 0.7rem;
+            padding: 3px 8px;
+            border-radius: 20px;
+        }
+        body { background-color: #f5f7fb; }
+        main { min-height: calc(100vh - 130px); }
+    </style>
 </head>
 <body>
     <header>
-        <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow mb-3">
+        <nav class="navbar navbar-expand-md navbar-biblioteca shadow-sm mb-4">
             <div class="container-fluid">
-                <a class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index">gestion_biblioteca</a>
-                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target=".navbar-collapse" aria-controls="navbarSupportedContent"
+
+                <!-- Logo / Marca -->
+                <a class="navbar-brand fw-bold d-flex align-items-center gap-2" asp-controller="Home" asp-action="Index">
+                    📚 Biblioteca UPV
+                </a>
+
+                <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
+                        data-bs-target="#navbarMain" aria-controls="navbarMain"
                         aria-expanded="false" aria-label="Toggle navigation">
                     <span class="navbar-toggler-icon"></span>
                 </button>
-                <div class="navbar-collapse collapse d-sm-inline-flex justify-content-between">
-                    <ul class="navbar-nav flex-grow-1">
-                        <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Index">Home</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
-                        </li>
-                    </ul>
+
+                <div class="collapse navbar-collapse" id="navbarMain">
+
+                    @* ── Menú según rol ── *@
+                    @if (usuarioSesion != null)
+                    {
+                        <ul class="navbar-nav me-auto">
+
+                            @* Dashboard (todos los roles) *@
+                            @if (usuarioSesion.Rol == Rol.Administrador)
+                            {
+                                <li class="nav-item">
+                                    <a class="nav-link" asp-controller="AdminDashboard" asp-action="Index">🏠 Dashboard</a>
+                                </li>
+                                <li class="nav-item">
+                                    <a class="nav-link" asp-controller="Usuarios" asp-action="Index">👥 Usuarios</a>
+                                </li>
+                                <li class="nav-item">
+                                    <a class="nav-link" asp-controller="Libros" asp-action="Index">📖 Libros</a>
+                                </li>
+                                <li class="nav-item">
+                                    <a class="nav-link" asp-controller="Prestamos" asp-action="Index">📋 Préstamos</a>
+                                </li>
+                            }
+                            else if (usuarioSesion.Rol == Rol.Bibliotecario)
+                            {
+                                <li class="nav-item">
+                                    <a class="nav-link" asp-controller="BibliotecarioDashboard" asp-action="Index">🏠 Dashboard</a>
+                                </li>
+                                <li class="nav-item">
+                                    <a class="nav-link" asp-controller="Libros" asp-action="Index">📖 Libros</a>
+                                </li>
+                                <li class="nav-item">
+                                    <a class="nav-link" asp-controller="Prestamos" asp-action="Index">📋 Préstamos</a>
+                                </li>
+                            }
+                            else if (usuarioSesion.Rol == Rol.Usuario)
+                            {
+                                <li class="nav-item">
+                                    <a class="nav-link" asp-controller="UsuarioDashboard" asp-action="Index">🏠 Mi Panel</a>
+                                </li>
+                                <li class="nav-item">
+                                    <a class="nav-link" asp-controller="Prestamos" asp-action="Index">📋 Mis Préstamos</a>
+                                </li>
+                            }
+                        </ul>
+
+                        @* Info del usuario + Logout *@
+                        <ul class="navbar-nav ms-auto align-items-center gap-2">
+                            <li class="nav-item d-flex align-items-center gap-2">
+                                <span class="navbar-text small">
+                                    👤 @usuarioSesion.NombreCompleto
+                                </span>
+                                <span class="badge badge-rol
+                                    @(usuarioSesion.Rol == Rol.Administrador ? "bg-danger" :
+                                      usuarioSesion.Rol == Rol.Bibliotecario ? "bg-success" : "bg-info")">
+                                    @usuarioSesion.RolNombre
+                                </span>
+                            </li>
+                            <li class="nav-item">
+                                <form asp-controller="Account" asp-action="Logout" method="post" class="d-inline">
+                                    @Html.AntiForgeryToken()
+                                    <button type="submit" class="btn btn-sm btn-outline-light">
+                                        Cerrar Sesión
+                                    </button>
+                                </form>
+                            </li>
+                        </ul>
+                    }
+                    else
+                    {
+                        @* Sin sesión: mostrar link de login *@
+                        <ul class="navbar-nav ms-auto">
+                            <li class="nav-item">
+                                <a class="nav-link" asp-controller="Account" asp-action="Login">Iniciar Sesión</a>
+                            </li>
+                        </ul>
+                    }
                 </div>
             </div>
         </nav>
     </header>
-    <div class="container">
-        <main role="main" class="pb-3">
+
+    <div class="container-fluid px-4">
+        <main role="main" class="pb-4">
             @RenderBody()
         </main>
     </div>
 
-    <footer class="border-top footer text-muted">
-        <div class="container">
-            &copy; 2026 - gestion_biblioteca - <a asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
+    <footer class="border-top py-3 mt-4 bg-white">
+        <div class="container-fluid px-4">
+            <small class="text-muted">
+                &copy; @DateTime.Now.Year — Sistema de Gestión de Biblioteca · Universidad Privada del Valle
+            </small>
         </div>
     </footer>
+
     <script src="~/lib/jquery/dist/jquery.min.js"></script>
     <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
     <script src="~/js/site.js" asp-append-version="true"></script>

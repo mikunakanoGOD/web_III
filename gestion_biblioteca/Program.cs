@@ -1,4 +1,5 @@
 using gestion_biblioteca.Data;
+using gestion_biblioteca.Services;
 using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -6,6 +7,9 @@ var builder = WebApplication.CreateBuilder(args);
 // Registrar ApplicationDbContext con SQL Server
 builder.Services.AddDbContext<ApplicationDbContext>(options =>
     options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
+
+// Registrar servicio de autenticación
+builder.Services.AddScoped<IAutenticacionService, AutenticacionService>();
 
 // Add services to the container.
 builder.Services.AddControllersWithViews();

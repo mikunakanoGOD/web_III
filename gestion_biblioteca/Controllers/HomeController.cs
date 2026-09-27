@@ -1,6 +1,7 @@
-using System.Diagnostics;
 using gestion_biblioteca.Models;
+using gestion_biblioteca.Services;
 using Microsoft.AspNetCore.Mvc;
+using System.Diagnostics;
 
 namespace gestion_biblioteca.Controllers
 {
@@ -13,20 +14,31 @@ namespace gestion_biblioteca.Controllers
             _logger = logger;
         }
 
+        // Redirige al dashboard correspondiente según el rol del usuario
         public IActionResult Index()
         {
-            return View();
-        }
+            var usuario = SesionService.ObtenerUsuario(HttpContext.Session);
 
-        public IActionResult Privacy()
-        {
-            return View();
+            if (usuario == null)
+                return RedirectToAction("Login", "Account");
+
+            return usuario.Rol switch
+            {
+                Rol.Administrador => RedirectToAction("Index", "AdminDashboard"),
+                Rol.Bibliotecario => RedirectToAction("Index", "BibliotecarioDashboard"),
+                Rol.Usuario       => RedirectToAction("Index", "UsuarioDashboard"),
+                _                 => RedirectToAction("Login", "Account")
+            };
         }
 
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
         public IActionResult Error()
         {
-            return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
+            return View(new ErrorViewModel
+            {
+                RequestId  = Activity.Current?.Id ?? HttpContext.TraceIdentifier,
+                StatusCode = 500
+            });
         }
     }
 }

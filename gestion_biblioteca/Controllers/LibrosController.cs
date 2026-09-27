@@ -6,10 +6,15 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using gestion_biblioteca.Data;
+using gestion_biblioteca.Filters;
 using gestion_biblioteca.Models;
+
+// Libros: accesible para Administrador y Bibliotecario (CRUD completo)
+// El Usuario solo puede ver el Index (catálogo) — se controlará por acción
 
 namespace gestion_biblioteca.Controllers
 {
+    [RequiereAutenticacion(Rol.Administrador, Rol.Bibliotecario)]
     public class LibrosController : Controller
     {
         private readonly ApplicationDbContext _context;

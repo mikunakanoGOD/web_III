@@ -1,0 +1,141 @@
+@using gestion_biblioteca.Models
+@{
+    ViewData["Title"] = "Dashboard - Bibliotecario";
+    var usuario = ViewBag.Usuario as gestion_biblioteca.ViewModels.UsuarioSesionViewModel;
+    var ultimosPrestamos = ViewBag.UltimosPrestamos as List<Prestamo>;
+}
+
+<div class="container-fluid py-4">
+
+    <!-- Encabezado -->
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <div>
+            <h2 class="fw-bold mb-0">Panel de Bibliotecario</h2>
+            <p class="text-muted mb-0">Bienvenido, @usuario?.NombreCompleto</p>
+        </div>
+        <span class="badge bg-success fs-6 px-3 py-2">Bibliotecario</span>
+    </div>
+
+    <!-- Tarjetas de estadísticas -->
+    <div class="row g-4 mb-4">
+        <div class="col-sm-6 col-xl-3">
+            <div class="card border-0 shadow-sm h-100">
+                <div class="card-body d-flex align-items-center gap-3">
+                    <div class="rounded-circle bg-primary bg-opacity-10 p-3 fs-3">📚</div>
+                    <div>
+                        <div class="fs-2 fw-bold text-primary">@ViewBag.TotalLibros</div>
+                        <div class="text-muted small">Total Libros</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-sm-6 col-xl-3">
+            <div class="card border-0 shadow-sm h-100">
+                <div class="card-body d-flex align-items-center gap-3">
+                    <div class="rounded-circle bg-success bg-opacity-10 p-3 fs-3">✅</div>
+                    <div>
+                        <div class="fs-2 fw-bold text-success">@ViewBag.LibrosDisponibles</div>
+                        <div class="text-muted small">Libros Disponibles</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-sm-6 col-xl-3">
+            <div class="card border-0 shadow-sm h-100">
+                <div class="card-body d-flex align-items-center gap-3">
+                    <div class="rounded-circle bg-warning bg-opacity-10 p-3 fs-3">⏳</div>
+                    <div>
+                        <div class="fs-2 fw-bold text-warning">@ViewBag.PrestamosPendientes</div>
+                        <div class="text-muted small">Pendientes</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-sm-6 col-xl-3">
+            <div class="card border-0 shadow-sm h-100">
+                <div class="card-body d-flex align-items-center gap-3">
+                    <div class="rounded-circle bg-info bg-opacity-10 p-3 fs-3">📤</div>
+                    <div>
+                        <div class="fs-2 fw-bold text-info">@ViewBag.PrestamosAprobados</div>
+                        <div class="text-muted small">Aprobados</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Accesos rápidos -->
+    <div class="row g-3 mb-4">
+        <div class="col-md-6">
+            <a asp-controller="Libros" asp-action="Index" class="text-decoration-none">
+                <div class="card border-0 shadow-sm">
+                    <div class="card-body d-flex align-items-center gap-3 py-3">
+                        <div class="fs-2">📖</div>
+                        <div>
+                            <h6 class="fw-bold mb-0">Gestionar Catálogo</h6>
+                            <small class="text-muted">Agregar, editar o eliminar libros</small>
+                        </div>
+                    </div>
+                </div>
+            </a>
+        </div>
+        <div class="col-md-6">
+            <a asp-controller="Prestamos" asp-action="Index" class="text-decoration-none">
+                <div class="card border-0 shadow-sm">
+                    <div class="card-body d-flex align-items-center gap-3 py-3">
+                        <div class="fs-2">📋</div>
+                        <div>
+                            <h6 class="fw-bold mb-0">Gestionar Préstamos</h6>
+                            <small class="text-muted">Aprobar, rechazar o registrar devoluciones</small>
+                        </div>
+                    </div>
+                </div>
+            </a>
+        </div>
+    </div>
+
+    <!-- Últimas solicitudes pendientes -->
+    <div class="card border-0 shadow-sm">
+        <div class="card-header bg-white border-0 pt-3">
+            <h5 class="fw-bold mb-0">⏳ Últimas Solicitudes Pendientes</h5>
+        </div>
+        <div class="card-body p-0">
+            @if (ultimosPrestamos != null && ultimosPrestamos.Any())
+            {
+                <div class="table-responsive">
+                    <table class="table table-hover mb-0">
+                        <thead class="table-light">
+                            <tr>
+                                <th>Usuario</th>
+                                <th>Libro</th>
+                                <th>Fecha Solicitud</th>
+                                <th>Acción</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach (var p in ultimosPrestamos)
+                            {
+                                <tr>
+                                    <td>@p.Usuario?.NombreCompleto</td>
+                                    <td>@p.Libro?.Titulo</td>
+                                    <td>@p.FechaSolicitud.ToString("dd/MM/yyyy")</td>
+                                    <td>
+                                        <a asp-controller="Prestamos" asp-action="Edit" asp-route-id="@p.Id"
+                                           class="btn btn-sm btn-outline-primary">Gestionar</a>
+                                    </td>
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+                </div>
+            }
+            else
+            {
+                <div class="text-center py-4 text-muted">
+                    <div class="fs-1">✅</div>
+                    <p>No hay solicitudes pendientes</p>
+                </div>
+            }
+        </div>
+    </div>
+</div>

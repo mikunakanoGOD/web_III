@@ -6,10 +6,14 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using gestion_biblioteca.Data;
+using gestion_biblioteca.Filters;
 using gestion_biblioteca.Models;
+
+// Usuarios: solo el Administrador puede gestionarlos
 
 namespace gestion_biblioteca.Controllers
 {
+    [RequiereAutenticacion(Rol.Administrador)]
     public class UsuariosController : Controller
     {
         private readonly ApplicationDbContext _context;

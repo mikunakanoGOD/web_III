@@ -1,0 +1,145 @@
+@model reforzamiento_primer_parcial.Models.VentaViewModel
+
+@{
+    ViewData["Title"] = "Registrar Venta";
+    var clientes = ViewBag.Clientes as List<reforzamiento_primer_parcial.Models.Cliente>;
+    var productos = ViewBag.Productos as List<reforzamiento_primer_parcial.Models.Producto>;
+}
+
+<h1>Registrar Venta</h1>
+
+<div class="alert alert-warning" role="alert">
+    <strong>Importante:</strong> Las ventas son finales y no pueden modificarse ni eliminarse una vez registradas. Verifique cuidadosamente los datos antes de confirmar.
+</div>
+
+<div class="row">
+    <div class="col-md-10">
+        <div class="card">
+            <div class="card-body">
+                <form asp-action="Create" method="post" id="ventaForm">
+                    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                    
+                    <div class="form-group mb-3">
+                        <label asp-for="ClienteId" class="control-label">Cliente</label>
+                        <select asp-for="ClienteId" class="form-select">
+                            <option value="0">-- Seleccione un cliente --</option>
+                            @if (clientes != null)
+                            {
+                                @foreach (var cliente in clientes)
+                                {
+                                    <option value="@cliente.Id">@cliente.Nombre</option>
+                                }
+                            }
+                        </select>
+                        <span asp-validation-for="ClienteId" class="text-danger"></span>
+                    </div>
+
+                    <div class="card mb-3">
+                        <div class="card-header d-flex justify-content-between align-items-center">
+                            <h5>Productos</h5>
+                            <button type="button" class="btn btn-sm btn-success" onclick="addProductRow()">
+                                Agregar Producto
+                            </button>
+                        </div>
+                        <div class="card-body">
+                            <div id="productRows">
+                                <!-- Product rows will be added here -->
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="alert alert-info">
+                        <h5>Total: <span id="totalDisplay">$0.00</span></h5>
+                    </div>
+
+                    <div class="form-group">
+                        <input type="submit" value="Registrar Venta" class="btn btn-primary" />
+                        <a asp-action="Index" class="btn btn-secondary">Cancelar</a>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Template for product row -->
+<template id="productRowTemplate">
+    <div class="row mb-2 product-row">
+        <div class="col-md-6">
+            <select class="form-select product-select" name="Items[INDEX].ProductoId" onchange="updateTotal()">
+                <option value="0" data-price="0">-- Seleccione un producto --</option>
+                @if (productos != null)
+                {
+                    @foreach (var producto in productos)
+                    {
+                        <option value="@producto.Id" data-price="@producto.Precio" data-stock="@producto.Stock">
+                            @producto.Nombre - $@producto.Precio.ToString("F2") (Stock: @producto.Stock)
+                        </option>
+                    }
+                }
+            </select>
+        </div>
+        <div class="col-md-3">
+            <input type="number" class="form-control quantity-input" name="Items[INDEX].Cantidad" 
+                   placeholder="Cantidad" min="1" value="1" onchange="updateTotal()" />
+        </div>
+        <div class="col-md-2">
+            <span class="form-control-plaintext subtotal-display">$0.00</span>
+        </div>
+        <div class="col-md-1">
+            <button type="button" class="btn btn-danger btn-sm" onclick="removeProductRow(this)">
+                X
+            </button>
+        </div>
+    </div>
+</template>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+    <script>
+        let rowIndex = 0;
+
+        function addProductRow() {
+            const template = document.getElementById('productRowTemplate');
+            const clone = template.content.cloneNode(true);
+            
+            // Replace INDEX with actual index
+            const html = clone.firstElementChild.outerHTML.replace(/INDEX/g, rowIndex);
+            rowIndex++;
+            
+            document.getElementById('productRows').insertAdjacentHTML('beforeend', html);
+            updateTotal();
+        }
+
+        function removeProductRow(button) {
+            button.closest('.product-row').remove();
+            updateTotal();
+        }
+
+        function updateTotal() {
+            let total = 0;
+            const rows = document.querySelectorAll('.product-row');
+            
+            rows.forEach(row => {
+                const select = row.querySelector('.product-select');
+                const quantityInput = row.querySelector('.quantity-input');
+                const subtotalDisplay = row.querySelector('.subtotal-display');
+                
+                const selectedOption = select.options[select.selectedIndex];
+                const price = parseFloat(selectedOption.getAttribute('data-price') || 0);
+                const quantity = parseInt(quantityInput.value) || 0;
+                const subtotal = price * quantity;
+                
+                subtotalDisplay.textContent = '$' + subtotal.toFixed(2);
+                total += subtotal;
+            });
+            
+            document.getElementById('totalDisplay').textContent = '$' + total.toFixed(2);
+        }
+
+        // Add initial row on page load
+        document.addEventListener('DOMContentLoaded', function() {
+            addProductRow();
+        });
+    </script>
+}

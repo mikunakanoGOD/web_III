@@ -1,0 +1,63 @@
+@model gestion_biblioteca.Models.Usuario
+@using gestion_biblioteca.Models
+@{
+    ViewData["Title"] = "Editar Usuario";
+}
+
+<div class="container py-4" style="max-width:600px">
+    <h2 class="fw-bold mb-4">✏️ Editar Usuario</h2>
+
+    <div class="card border-0 shadow-sm">
+        <div class="card-body">
+            <form asp-action="Edit" method="post">
+                @Html.AntiForgeryToken()
+                <input type="hidden" asp-for="Id" />
+                <input type="hidden" asp-for="FechaRegistro" />
+                <input type="hidden" asp-for="PasswordHash" />
+
+                <div asp-validation-summary="ModelOnly" class="alert alert-danger py-2"></div>
+
+                <div class="row g-3">
+                    <div class="col-md-6">
+                        <label asp-for="Nombre" class="form-label fw-semibold"></label>
+                        <input asp-for="Nombre" class="form-control" />
+                        <span asp-validation-for="Nombre" class="text-danger small"></span>
+                    </div>
+                    <div class="col-md-6">
+                        <label asp-for="Apellido" class="form-label fw-semibold"></label>
+                        <input asp-for="Apellido" class="form-control" />
+                        <span asp-validation-for="Apellido" class="text-danger small"></span>
+                    </div>
+                    <div class="col-12">
+                        <label asp-for="Email" class="form-label fw-semibold"></label>
+                        <input asp-for="Email" class="form-control" />
+                        <span asp-validation-for="Email" class="text-danger small"></span>
+                    </div>
+                    <div class="col-12">
+                        <label class="form-label fw-semibold">Nueva Contraseña <small class="text-muted fw-normal">(dejar vacío para no cambiar)</small></label>
+                        <input type="password" name="nuevaPassword" class="form-control" placeholder="Nueva contraseña..." />
+                    </div>
+                    <div class="col-md-6">
+                        <label asp-for="Rol" class="form-label fw-semibold"></label>
+                        <select asp-for="Rol" class="form-select"
+                                asp-items="Html.GetEnumSelectList<Rol>()"></select>
+                        <span asp-validation-for="Rol" class="text-danger small"></span>
+                    </div>
+                    <div class="col-md-6 d-flex align-items-end">
+                        <div class="form-check mb-2">
+                            <input asp-for="Activo" class="form-check-input" />
+                            <label asp-for="Activo" class="form-check-label fw-semibold">Activo</label>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="d-flex gap-2 mt-4">
+                    <button type="submit" class="btn btn-primary px-4">Guardar Cambios</button>
+                    <a asp-action="Index" class="btn btn-outline-secondary">Cancelar</a>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+@section Scripts { @{ await Html.RenderPartialAsync("_ValidationScriptsPartial"); } }

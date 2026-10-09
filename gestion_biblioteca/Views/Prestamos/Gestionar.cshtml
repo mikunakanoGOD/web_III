@@ -1,0 +1,107 @@
+@model gestion_biblioteca.Models.Prestamo
+@using gestion_biblioteca.Models
+@{
+    ViewData["Title"] = "Gestionar Préstamo";
+}
+
+<div class="container py-4" style="max-width:700px">
+    <h2 class="fw-bold mb-4">⚙️ Gestionar Préstamo #@Model.Id</h2>
+
+    <div class="card border-0 shadow-sm mb-4">
+        <div class="card-body">
+            <dl class="row mb-0">
+                <dt class="col-sm-4">Usuario</dt>
+                <dd class="col-sm-8">@Model.Usuario?.NombreCompleto</dd>
+
+                <dt class="col-sm-4">Libro</dt>
+                <dd class="col-sm-8"><strong>@Model.Libro?.Titulo</strong> — @Model.Libro?.Autor</dd>
+
+                <dt class="col-sm-4">Fecha Solicitud</dt>
+                <dd class="col-sm-8">@Model.FechaSolicitud.ToString("dd/MM/yyyy HH:mm")</dd>
+
+                <dt class="col-sm-4">Devolución Esperada</dt>
+                <dd class="col-sm-8">@(Model.FechaDevolucionEsperada?.ToString("dd/MM/yyyy") ?? "—")</dd>
+
+                <dt class="col-sm-4">Estado Actual</dt>
+                <dd class="col-sm-8">
+                    @switch (Model.Estado)
+                    {
+                        case EstadoPrestamo.Pendiente:
+                            <span class="badge bg-warning text-dark fs-6">Pendiente</span>
+                            break;
+                        case EstadoPrestamo.Aprobado:
+                            <span class="badge bg-success fs-6">Aprobado</span>
+                            break;
+                        case EstadoPrestamo.Rechazado:
+                            <span class="badge bg-danger fs-6">Rechazado</span>
+                            break;
+                        case EstadoPrestamo.Devuelto:
+                            <span class="badge bg-secondary fs-6">Devuelto</span>
+                            break;
+                    }
+                </dd>
+
+                @if (!string.IsNullOrEmpty(Model.Observaciones))
+                {
+                    <dt class="col-sm-4">Observaciones</dt>
+                    <dd class="col-sm-8">@Model.Observaciones</dd>
+                }
+            </dl>
+        </div>
+    </div>
+
+    @if (Model.Estado == EstadoPrestamo.Pendiente)
+    {
+        <div class="card border-0 shadow-sm mb-3">
+            <div class="card-header bg-white fw-semibold">Tomar decisión</div>
+            <div class="card-body">
+                <div class="mb-3">
+                    <label class="form-label">Observaciones (opcional)</label>
+                    <textarea id="obsInput" class="form-control" rows="2" placeholder="Motivo de aprobación o rechazo..."></textarea>
+                </div>
+                <div class="d-flex gap-3">
+                    <form asp-action="Aprobar" method="post" class="flex-fill" id="frmAprobar">
+                        @Html.AntiForgeryToken()
+                        <input type="hidden" name="id" value="@Model.Id" />
+                        <input type="hidden" name="observaciones" id="obsAprobar" />
+                        <button type="submit" class="btn btn-success w-100">✅ Aprobar</button>
+                    </form>
+                    <form asp-action="Rechazar" method="post" class="flex-fill" id="frmRechazar">
+                        @Html.AntiForgeryToken()
+                        <input type="hidden" name="id" value="@Model.Id" />
+                        <input type="hidden" name="observaciones" id="obsRechazar" />
+                        <button type="submit" class="btn btn-danger w-100">❌ Rechazar</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    }
+
+    @if (Model.Estado == EstadoPrestamo.Aprobado)
+    {
+        <div class="card border-0 shadow-sm mb-3">
+            <div class="card-body">
+                <p class="mb-3 text-muted">Registra la devolución cuando el usuario entregue el libro.</p>
+                <form asp-action="RegistrarDevolucion" method="post">
+                    @Html.AntiForgeryToken()
+                    <input type="hidden" name="id" value="@Model.Id" />
+                    <button type="submit" class="btn btn-primary">📥 Registrar Devolución</button>
+                </form>
+            </div>
+        </div>
+    }
+
+    <a asp-action="Index" class="btn btn-outline-secondary">← Volver a Préstamos</a>
+</div>
+
+@section Scripts {
+    <script>
+        // Copiar observaciones a ambos formularios al enviar
+        document.getElementById('frmAprobar')?.addEventListener('submit', function () {
+            document.getElementById('obsAprobar').value = document.getElementById('obsInput').value;
+        });
+        document.getElementById('frmRechazar')?.addEventListener('submit', function () {
+            document.getElementById('obsRechazar').value = document.getElementById('obsInput').value;
+        });
+    </script>
+}

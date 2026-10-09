@@ -1,0 +1,60 @@
+@page "{id:int}"
+@model Gestion_Citas_Veterinaria.Pages.Citas.EditModel
+
+@{
+    ViewData["Title"] = "Editar Cita";
+}
+
+<h2>Editar Cita</h2>
+<hr />
+
+<div class="row">
+    <div class="col-md-6">
+        <form method="post">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <input type="hidden" asp-for="Cita.Id" />
+
+            <div class="mb-3">
+                <label asp-for="Cita.MascotaId" class="form-label">Mascota</label>
+                <select asp-for="Cita.MascotaId" asp-items="Model.MascotasSelect" class="form-select">
+                    <option value="">-- Seleccione una mascota --</option>
+                </select>
+                <span asp-validation-for="Cita.MascotaId" class="text-danger"></span>
+            </div>
+            <div class="mb-3">
+                <label asp-for="Cita.VeterinarioId" class="form-label">Veterinario</label>
+                <select asp-for="Cita.VeterinarioId" asp-items="Model.VeterinariosSelect" class="form-select">
+                    <option value="">-- Seleccione un veterinario --</option>
+                </select>
+                <span asp-validation-for="Cita.VeterinarioId" class="text-danger"></span>
+            </div>
+            <div class="mb-3">
+                <label asp-for="Cita.FechaHora" class="form-label"></label>
+                <input asp-for="Cita.FechaHora" class="form-control" type="datetime-local" />
+                <span asp-validation-for="Cita.FechaHora" class="text-danger"></span>
+            </div>
+            <div class="mb-3">
+                <label asp-for="Cita.Motivo" class="form-label"></label>
+                <textarea asp-for="Cita.Motivo" class="form-control" rows="3"></textarea>
+                <span asp-validation-for="Cita.Motivo" class="text-danger"></span>
+            </div>
+            <div class="mb-3">
+                <label asp-for="Cita.Estado" class="form-label"></label>
+                <select asp-for="Cita.Estado" asp-items="Model.EstadosSelect" class="form-select"></select>
+                <span asp-validation-for="Cita.Estado" class="text-danger"></span>
+            </div>
+            <div class="mb-3">
+                <label asp-for="Cita.Diagnostico" class="form-label"></label>
+                <textarea asp-for="Cita.Diagnostico" class="form-control" rows="3"></textarea>
+                <span asp-validation-for="Cita.Diagnostico" class="text-danger"></span>
+            </div>
+
+            <button type="submit" class="btn btn-primary">Guardar</button>
+            <a asp-page="Index" class="btn btn-secondary">Cancelar</a>
+        </form>
+    </div>
+</div>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}

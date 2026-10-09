@@ -1,0 +1,26 @@
+@page "{id:int}"
+@model Gestion_Citas_Veterinaria.Pages.Veterinarios.DeleteModel
+
+@{
+    ViewData["Title"] = "Eliminar Veterinario";
+}
+
+<h2>¿Eliminar este veterinario?</h2>
+<hr />
+
+<dl class="row">
+    <dt class="col-sm-3">Nombre</dt>
+    <dd class="col-sm-9">@Model.Veterinario.Nombre</dd>
+
+    <dt class="col-sm-3">Apellidos</dt>
+    <dd class="col-sm-9">@Model.Veterinario.Apellidos</dd>
+
+    <dt class="col-sm-3">Especialidad</dt>
+    <dd class="col-sm-9">@(Model.Veterinario.Especialidad ?? "-")</dd>
+</dl>
+
+<form method="post">
+    <input type="hidden" asp-for="Veterinario.Id" />
+    <button type="submit" class="btn btn-danger">Sí, eliminar</button>
+    <a asp-page="Index" class="btn btn-secondary">Cancelar</a>
+</form>

@@ -1,0 +1,116 @@
+@model gestion_biblioteca.ViewModels.LoginViewModel
+
+@{
+    ViewData["Title"] = "Iniciar Sesión";
+    Layout = null; // Sin layout para la pantalla de login
+}
+
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>@ViewData["Title"] - Biblioteca UPV</title>
+    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
+    <style>
+        body {
+            background: linear-gradient(135deg, #1a237e 0%, #283593 50%, #1565c0 100%);
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        .login-card {
+            background: white;
+            border-radius: 16px;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+            padding: 2.5rem;
+            width: 100%;
+            max-width: 420px;
+        }
+        .login-header {
+            text-align: center;
+            margin-bottom: 2rem;
+        }
+        .login-header .icon {
+            font-size: 3rem;
+            color: #1a237e;
+        }
+        .login-header h2 {
+            color: #1a237e;
+            font-weight: 700;
+            margin-top: 0.5rem;
+        }
+        .login-header p {
+            color: #666;
+            font-size: 0.9rem;
+        }
+        .btn-login {
+            background: linear-gradient(135deg, #1a237e, #1565c0);
+            border: none;
+            color: white;
+            padding: 0.75rem;
+            font-size: 1rem;
+            font-weight: 600;
+            border-radius: 8px;
+            width: 100%;
+            transition: opacity 0.2s;
+        }
+        .btn-login:hover { opacity: 0.9; color: white; }
+        .form-control:focus {
+            border-color: #1a237e;
+            box-shadow: 0 0 0 0.2rem rgba(26,35,126,0.25);
+        }
+        .footer-text {
+            text-align: center;
+            color: #999;
+            font-size: 0.8rem;
+            margin-top: 1.5rem;
+        }
+    </style>
+</head>
+<body>
+    <div class="login-card">
+        <div class="login-header">
+            <div class="icon">📚</div>
+            <h2>Biblioteca UPV</h2>
+            <p>Universidad Privada del Valle - Sede Sucre</p>
+        </div>
+
+        <form asp-action="Login" method="post">
+            <input type="hidden" name="returnUrl" value="@ViewData["ReturnUrl"]" />
+            @Html.AntiForgeryToken()
+
+            <div asp-validation-summary="All" class="alert alert-danger py-2" style="display:@(ViewContext.ModelState.IsValid ? "none" : "block")">
+            </div>
+
+            <div class="mb-3">
+                <label asp-for="Email" class="form-label fw-semibold"></label>
+                <input asp-for="Email" class="form-control" placeholder="correo@ejemplo.com" autocomplete="email" />
+                <span asp-validation-for="Email" class="text-danger small"></span>
+            </div>
+
+            <div class="mb-4">
+                <label asp-for="Password" class="form-label fw-semibold"></label>
+                <input asp-for="Password" class="form-control" placeholder="••••••••" autocomplete="current-password" />
+                <span asp-validation-for="Password" class="text-danger small"></span>
+            </div>
+
+            <div class="mb-4 form-check">
+                <input asp-for="Recordarme" class="form-check-input" />
+                <label asp-for="Recordarme" class="form-check-label"></label>
+            </div>
+
+            <button type="submit" class="btn btn-login">Iniciar Sesión</button>
+        </form>
+
+        <div class="footer-text">
+            <p class="mb-0">Sistema de Gestión de Biblioteca &copy; @DateTime.Now.Year</p>
+        </div>
+    </div>
+
+    <script src="~/lib/jquery/dist/jquery.min.js"></script>
+    <script src="~/lib/jquery-validation/dist/jquery.validate.min.js"></script>
+    <script src="~/lib/jquery-validation-unobtrusive/jquery.validate.unobtrusive.min.js"></script>
+</body>
+</html>

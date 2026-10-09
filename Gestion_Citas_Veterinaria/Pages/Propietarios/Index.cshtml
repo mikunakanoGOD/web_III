@@ -1,0 +1,42 @@
+@page
+@model Gestion_Citas_Veterinaria.Pages.Propietarios.IndexModel
+
+@{
+    ViewData["Title"] = "Propietarios";
+}
+
+<h2>Propietarios</h2>
+
+<p>
+    <a asp-page="Create" class="btn btn-primary">+ Nuevo propietario</a>
+</p>
+
+<table class="table table-striped">
+    <thead>
+        <tr>
+            <th>Nombre</th>
+            <th>Apellidos</th>
+            <th>Teléfono</th>
+            <th>Email</th>
+            <th>Estado</th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model.Propietarios)
+        {
+            <tr>
+                <td>@item.Nombre</td>
+                <td>@item.Apellidos</td>
+                <td>@item.Telefono</td>
+                <td>@item.Email</td>
+                <td>@(item.Activo ? "Activo" : "Inactivo")</td>
+                <td>
+                    <a asp-page="Edit" asp-route-id="@item.Id" class="btn btn-sm btn-warning">Editar</a>
+                    <a asp-page="Details" asp-route-id="@item.Id" class="btn btn-sm btn-info">Ver</a>
+                    <a asp-page="Delete" asp-route-id="@item.Id" class="btn btn-sm btn-danger">Eliminar</a>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
